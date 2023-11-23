@@ -8,10 +8,9 @@ const app: Application = express();
 app.use(express.json());
 app.use(cors());
 
-// Applicaton Routes 
-app.use('/api/users', UserRoutes)
+// Applicaton Routes
+app.use('/api/users', UserRoutes);
+app.use('/api/users', UserRoutes);
 
-
-app.get('/', );
 
 export default app;
