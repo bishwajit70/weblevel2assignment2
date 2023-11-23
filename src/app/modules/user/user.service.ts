@@ -11,7 +11,13 @@ const getAllUserFromDB = async () => {
   return result;
 };
 
+const getSingleUserFromFromDB = async (id: number) => {
+  const result = await UserModel.findOne({ id: id });
+  return result;
+};
+
 export const UserServices = {
   createUserIntoDB,
   getAllUserFromDB,
+  getSingleUserFromFromDB,
 };
