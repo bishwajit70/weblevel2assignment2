@@ -5,7 +5,7 @@ const router = express.Router();
 
 // will call controller function
 
-router.post('/users', UserControllers.createUser);
+router.post('/api/users', UserControllers.createUser);
 router.get('/api/users', UserControllers.getAllUsers);
 router.get('/api/users/:userId', UserControllers.getSingleUser);
 

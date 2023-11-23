@@ -12,7 +12,7 @@ const getAllUserFromDB = async () => {
 };
 
 const getSingleUserFromFromDB = async (id: number) => {
-  const result = await UserModel.findOne({ id: id });
+  const result = await UserModel.findOne({ id });
   return result;
 };
 

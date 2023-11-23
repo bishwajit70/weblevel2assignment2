@@ -9,9 +9,8 @@ app.use(express.json());
 app.use(cors());
 
 // Applicaton Routes
-app.use('/api', UserRoutes);
-// app.use('/api/users', UserRoutes);
-// app.use('/api/users/:userId', UserRoutes)
+app.use('/', UserRoutes);
+
 
 
 export default app;
