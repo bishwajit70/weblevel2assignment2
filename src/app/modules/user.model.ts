@@ -12,9 +12,8 @@ const userSchema = new Schema<IUser>({
   age: { type: Number, required: true },
   email: { type: String, required: true, unique: true },
   isActive: {
-    type: String,
-    enum: ['active', 'inactive'],
-    default: 'active',
+    type: Boolean,
+    default: true,
     required: true,
   },
   hobbies: {
