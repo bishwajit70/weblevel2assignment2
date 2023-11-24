@@ -9,6 +9,11 @@ export type Address={
   city: string;
   country: string;
 }
+export type Orders = {
+  producName: string,
+  price:number,
+  quantity:number,
+}
 
 export type IUser = {
   userId: number;
@@ -20,4 +25,5 @@ export type IUser = {
   isActive: 'active' | 'inactive';
   hobbies:string ;
   address: Address;
+  orders:Orders
 };
