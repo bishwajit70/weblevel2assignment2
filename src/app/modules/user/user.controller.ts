@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { UserServices } from './user.service';
 
+
 const createUser = async (req: Request, res: Response) => {
   try {
     const user = req.body.user;
@@ -30,8 +31,7 @@ const getAllUsers = async (req: Request, res: Response) => {
 
 const getSingleUser = async (req: Request, res: Response) => {
   try {
-    const userId = parseInt(req.params.userId, 10);
-    // console.log(typeof userId);
+    const userId = req.params.userId;
     const result = await UserServices.getSingleUserFromDB(userId);
     res.status(200).json({
       success: true,
@@ -43,20 +43,20 @@ const getSingleUser = async (req: Request, res: Response) => {
   }
 };
 
-const updateSingleUser = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const userData = req.body;
-    const result = await UserServices.updateSingleUserFromDB(id, userData);
-    res.status(200).json({
-      success: true,
-      message: 'User Updated successfully!',
-      data: result,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
+// const updateSingleUser = async (req: Request, res: Response) => {
+//   try {
+//     const userId = req.params.userId;
+//     const userData = req.body;
+//     const result = await UserServices.updateSingleUserFromDB(userId, userData);
+//     res.status(200).json({
+//       success: true,
+//       message: 'User Updated successfully!',
+//       data: result,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 const deleteUser = async (req: Request, res: Response) => {
   try {
@@ -76,6 +76,6 @@ export const UserControllers = {
   createUser,
   getAllUsers,
   getSingleUser,
-  updateSingleUser,
+  // updateSingleUser,
   deleteUser,
 };

@@ -16,16 +16,16 @@ const getSingleUserFromDB = async (userId: string): Promise<IUser | null> => {
   return result;
 };
 
-const updateSingleUserFromDB = async (
-  id: number,
-  userData: IUser,
-): Promise<IUser | null> => {
-  const result = await UserModel.findByIdAndUpdate(id, userData, {
-    new: true,
-    runValidators: true,
-  });
-  return result;
-};
+// const updateSingleUserFromDB = async (
+//   id: number,
+//   userData: IUser,
+// ): Promise<IUser | null> => {
+//   const result = await UserModel.findByIdAndUpdate(id, userData, {
+//     new: true,
+//     runValidators: true,
+//   });
+//   return result;
+// };
 
 const deleteUser = async (id: string): Promise<IUser | null> => {
   const result = await UserModel.findByIdAndDelete(id);
@@ -36,6 +36,6 @@ export const UserServices = {
   createUserIntoDB,
   getAllUserFromDB,
   getSingleUserFromDB,
-  updateSingleUserFromDB,
+  // updateSingleUserFromDB,
   deleteUser,
 };
