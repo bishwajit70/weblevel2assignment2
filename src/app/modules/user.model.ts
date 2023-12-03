@@ -31,11 +31,15 @@ const userSchema = new Schema<IUser>({
   },
   orders: [
     {
-      productName: {type: String,},
-      price: {type: Number,},
-      quantity: {type: Number,},
+      productName: { type: String },
+      price: { type: Number },
+      quantity: { type: Number },
     },
   ],
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // creating model

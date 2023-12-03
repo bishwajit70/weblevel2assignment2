@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { UserServices } from './user.service';
 
-
 const createUser = async (req: Request, res: Response) => {
   try {
     const user = req.body.user;
@@ -31,7 +30,7 @@ const getAllUsers = async (req: Request, res: Response) => {
 
 const getSingleUser = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.userId;
+    const { userId } = req.params;
     const result = await UserServices.getSingleUserFromDB(userId);
     res.status(200).json({
       success: true,
@@ -60,8 +59,8 @@ const getSingleUser = async (req: Request, res: Response) => {
 
 const deleteUser = async (req: Request, res: Response) => {
   try {
-    const id = req.body.id;
-    await UserServices.deleteUser(id);
+    const { userId } = req.body;
+    await UserServices.deleteUser(userId);
     res.status(200).json({
       success: true,
       message: 'User Deleted successfully!',

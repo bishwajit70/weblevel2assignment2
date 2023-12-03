@@ -1,7 +1,7 @@
 import { UserModel } from '../user.model';
 import { IUser } from './user.interface';
 
-const createUserIntoDB = async (user: IUser): Promise<IUser> => {
+const createUserIntoDB = async (user: IUser) => {
   const result = await UserModel.create(user);
   return result;
 };
@@ -11,8 +11,8 @@ const getAllUserFromDB = async (): Promise<IUser[]> => {
   return result;
 };
 
-const getSingleUserFromDB = async (userId: string): Promise<IUser | null> => {
-  const result = await UserModel.findById(userId);
+const getSingleUserFromDB = async (userId: number): Promise<IUser | null> => {
+  const result = await UserModel.findOne({ userId });
   return result;
 };
 
@@ -27,8 +27,8 @@ const getSingleUserFromDB = async (userId: string): Promise<IUser | null> => {
 //   return result;
 // };
 
-const deleteUser = async (id: string): Promise<IUser | null> => {
-  const result = await UserModel.findByIdAndDelete(id);
+const deleteUser = async (userId: number) => {
+  const result = await UserModel.updateOne({ userId }, { isDeleted: true });
   return result;
 };
 
