@@ -2,18 +2,21 @@ import { UserModel } from '../user.model';
 import { IUser } from './user.interface';
 
 const createUserIntoDB = async (user: IUser) => {
-  const result = await UserModel.create(user);
+  const result = (await UserModel.create(user)).toObject();
+  delete result?.password;
   return result;
 };
 
 const getAllUserFromDB = async (): Promise<IUser[]> => {
-  const result = await UserModel.find().select('-password').select('-orders');
+  const result = await UserModel.find().select('-password').select('-orders').select('-userId').select('-_id');
   return result;
 };
 
-const getSingleUserFromDB = async (userId: number): Promise<IUser | null> => {
+const getSingleUserFromDB = async (userId: number) => {
   const result = await UserModel.findOne({ userId });
-  return result;
+  const data = result?.toObject();
+  delete data?.password
+  return data;
 };
 
 // const updateSingleUserFromDB = async (
