@@ -3,7 +3,7 @@ import { IUser } from './user.interface';
 
 const createUserIntoDB = async (user: IUser) => {
   const result = (await UserModel.create(user)).toObject();
-  // delete result.password;
+  delete result.password;
   return result;
 };
 
@@ -19,7 +19,7 @@ const getAllUserFromDB = async (): Promise<IUser[]> => {
 const getSingleUserFromDB = async (userId: number) => {
   const result = await UserModel.findOne({ userId });
   const data = result?.toObject();
-  // delete data?.password;
+  delete data?.password;
   return data;
 };
 
