@@ -2,7 +2,19 @@ import { Schema, model } from 'mongoose';
 import { Address, FullName, IUser, Orders } from './user/user.interface';
 
 const FullName = new Schema<FullName>({
-  firstName: { type: String, trim: true, required: true },
+  firstName: {
+    type: String,
+    trim: true,
+    required: [true, 'First Name is required'],
+    maxlength: [20, 'First name cannot be more than 30 characters'],
+    validate: {
+      validator: function (value: string) {
+        const fristNameStr = value.charAt(0).toUpperCase() + value.slice(1);
+        return fristNameStr === value;
+      },
+      message: '{VALUE} is not in capitalize format',
+    },
+  },
   lastName: { type: String, trim: true, required: true },
 });
 const Address = new Schema<Address>({
@@ -26,14 +38,14 @@ const userSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true },
   isActive: {
     type: Boolean,
-    required:true,
+    required: true,
   },
   hobbies: {
     type: String,
     enum: {
       values: ['reading', 'gardening', 'hiking', 'acting'],
       message:
-        "Hobbies will be one of the following: 'reading', 'gardening', 'hiking', 'acting'",
+        "Hobbies will be one of the following: 'reading', 'gardening', 'hiking', 'acting'.",
     },
   },
   address: { type: Address, required: true },
