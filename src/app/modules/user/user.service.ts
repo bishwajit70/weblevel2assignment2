@@ -2,12 +2,19 @@ import { User } from '../user.model';
 import { TIUser } from './user.interface';
 
 const createUserIntoDB = async (userData: TIUser) => {
-  const user = new User(userData);
-
-  if (await user.isUserExists(userData.userId)) {
+// static method 
+  if (await User.isUserExists(userData.userId)) {
     throw new Error('User Already Exists!');
   }
-  const result = await user.save();
+  const result = await User.create(userData);
+
+
+  // const user = new User(userData);
+// instance method 
+  // if (await user.isUserExists(userData.userId)) {
+  //   throw new Error('User Already Exists!');
+  // }
+  // const result = await user.save();
   const data = result.toObject();
   // const result = (await UserModel.create(user)).toObject();
   delete data.password;
@@ -16,10 +23,10 @@ const createUserIntoDB = async (userData: TIUser) => {
 
 const getAllUserFromDB = async (): Promise<TIUser[]> => {
   const result = await User.find()
-    // .select('-password')
-    // .select('-orders')
-    // .select('-userId')
-    // .select('-_id');
+    .select('-password')
+    .select('-orders')
+    .select('-userId')
+    .select('-_id');
   return result;
 };
 

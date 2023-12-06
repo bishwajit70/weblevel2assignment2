@@ -28,8 +28,16 @@ export type TIUser = {
   orders: TOrder[];
 };
 
-export type TIUserMethods = {
-  isUserExists(userId: number): Promise<TIUser | null>;
-};
+// for creating static method
 
-export type TUserModel = Model<TIUser, Record<string, never>, TIUserMethods>;
+export interface UserModel extends Model<TIUser> {
+  isUserExists(userId: number): Promise<TIUser | null>;
+}
+
+// for creating instance
+
+// export type TIUserMethods = {
+//   isUserExists(userId: number): Promise<TIUser | null>;
+// };
+
+// export type TUserModel = Model<TIUser, Record<string, never>, TIUserMethods>;

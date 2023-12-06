@@ -5,6 +5,7 @@ import {
   TIUser,
   TIUserMethods,
   TOrder,
+  UserModel,
   TUserModel,
 } from './user/user.interface';
 import validator from 'validator';
@@ -41,7 +42,7 @@ const OrderSchema = new Schema<TOrder>({
   quantity: { type: Number, required: true },
 });
 
-const userSchema = new Schema<TIUser, TUserModel, TIUserMethods>({
+const userSchema = new Schema<TIUser, UserModel>({
   userId: { type: Number, required: true, unique: true },
   userName: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -72,11 +73,19 @@ const userSchema = new Schema<TIUser, TUserModel, TIUserMethods>({
   orders: [OrderSchema],
 });
 
-// creating model
+// creating a custom static method
 
-userSchema.methods.isUserExists = async function (userId: number) {
-  const existingUser = await User.findOne({ userId });
+userSchema.statics.isUserExists = async function (userId: number) {
+  const existingUser = await User.findOne({userId});
   return existingUser;
 };
+
+// creating model
+
+// creating a custom instance method
+// userSchema.methods.isUserExists = async function (userId: number) {
+//   const existingUser = await User.findOne({ userId });
+//   return existingUser;
+// };
 
 export const User = model<TIUser, TUserModel>('User', userSchema);
