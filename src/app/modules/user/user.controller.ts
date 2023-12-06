@@ -1,24 +1,26 @@
 import { Request, Response } from 'express';
 import { UserServices } from './user.service';
-// import { z } from 'zod';
-// import userValidationSchema from './user.validation';
+import UserValidationSchema from './user.validation';
 
 const createUser = async (req: Request, res: Response) => {
   try {
-    const {user : userData} = req.body;
-    //creating a validation schema with zod
+    const { user: userData } = req.body;
 
-    const result = await UserServices.createUserIntoDB(userData);
+    // data validation using zod
+
+    const zodParsedData = UserValidationSchema.parse(userData);
+
+    const result = await UserServices.createUserIntoDB(zodParsedData);
     res.status(200).json({
       success: true,
       message: 'User created successfully',
       data: result,
     });
-  } catch (error) {
+  } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: 'Something Went Wrong',
-      error: error,
+      message: err.message || 'Something Went Wrong',
+      error: err,
     });
   }
 };
@@ -39,7 +41,7 @@ const getAllUsers = async (req: Request, res: Response) => {
 const getSingleUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const parsedID = parseInt(userId)
+    const parsedID = parseInt(userId);
     const result = await UserServices.getSingleUserFromDB(parsedID);
     res.status(200).json({
       success: true,
@@ -86,4 +88,4 @@ export const UserControllers = {
   getSingleUser,
   // updateSingleUser,
   // deleteUser,
-}
+};

@@ -1,28 +1,35 @@
+import { Model } from 'mongoose';
 import {} from 'mongoose';
 
-export type FullName = {
+export type TFullName = {
   firstName: string;
   lastName: string;
 };
-export type Address = {
+export type TAddress = {
   street: string;
   city: string;
   country: string;
 };
-export type Orders = {
+export type TOrder = {
   productName: string;
   price: number;
   quantity: number;
 };
-export type IUser = {
+export type TIUser = {
   userId: number;
   userName: string;
   password: string;
-  fullName: FullName;
+  fullName: TFullName;
   age: number;
   email: string;
   isActive: boolean;
   hobbies: string;
-  address: Address;
-  orders: Orders;
+  address: TAddress;
+  orders: TOrder[];
 };
+
+export type TIUserMethods = {
+  isUserExists(userId: number): Promise<TIUser | null>;
+};
+
+export type TUserModel = Model<TIUser, Record<string, never>, TIUserMethods>;

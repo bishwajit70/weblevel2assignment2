@@ -1,23 +1,30 @@
-import { UserModel } from '../user.model';
-import { IUser } from './user.interface';
+import { User } from '../user.model';
+import { TIUser } from './user.interface';
 
-const createUserIntoDB = async (user: IUser) => {
-  const result = (await UserModel.create(user)).toObject();
-  delete result.password;
-  return result;
+const createUserIntoDB = async (userData: TIUser) => {
+  const user = new User(userData);
+
+  if (await user.isUserExists(userData.userId)) {
+    throw new Error('User Already Exists!');
+  }
+  const result = await user.save();
+  const data = result.toObject();
+  // const result = (await UserModel.create(user)).toObject();
+  delete data.password;
+  return data;
 };
 
-const getAllUserFromDB = async (): Promise<IUser[]> => {
-  const result = await UserModel.find()
-    .select('-password')
-    .select('-orders')
-    .select('-userId')
-    .select('-_id');
+const getAllUserFromDB = async (): Promise<TIUser[]> => {
+  const result = await User.find()
+    // .select('-password')
+    // .select('-orders')
+    // .select('-userId')
+    // .select('-_id');
   return result;
 };
 
 const getSingleUserFromDB = async (userId: number) => {
-  const result = await UserModel.findOne({ userId });
+  const result = await User.findOne({ userId });
   const data = result?.toObject();
   delete data?.password;
   return data;
@@ -35,7 +42,7 @@ const getSingleUserFromDB = async (userId: number) => {
 // };
 
 const deleteUser = async (userId: number) => {
-  const result = await UserModel.updateOne({ userId }, { isDeleted: true });
+  const result = await User.updateOne({ userId }, { isDeleted: true });
   return result;
 };
 
