@@ -73,6 +73,10 @@ const userSchema = new Schema<TIUser, UserModel>({
   },
   address: { type: Address, required: true },
   orders: [OrderSchema],
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // pre save middleware / hook
@@ -89,8 +93,11 @@ userSchema.pre('save', async function (next) {
 });
 
 // post save middleware / hook
-userSchema.post('save', function () {
-  console.log(this, 'post hook: we saved our data');
+userSchema.post('save', function (doc, next) {
+  // console.log(this, 'post hook: we saved our data');
+  doc.password = '';
+  console.log(doc);
+  next();
 });
 
 // creating a custom static method
@@ -99,6 +106,12 @@ userSchema.statics.isUserExists = async function (userId: number) {
   const existingUser = await User.findOne({ userId });
   return existingUser;
 };
+
+//Query middleware
+
+userSchema.pre('find', function (next) {
+  // console.log(this);
+});
 
 // creating model
 

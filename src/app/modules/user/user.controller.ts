@@ -16,7 +16,7 @@ const createUser = async (req: Request, res: Response) => {
       message: 'User created successfully',
       data: result,
     });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(500).json({
       success: false,
@@ -34,23 +34,31 @@ const getAllUsers = async (req: Request, res: Response) => {
       message: 'Users fetched successfully!',
       data: result,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something Went Wrong',
+      error: err,
+    });
   }
 };
 
 const getSingleUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const parsedID = parseInt(userId);
-    const result = await UserServices.getSingleUserFromDB(parsedID);
+    const parsedId = parseInt(userId);
+    const result = await UserServices.getSingleUserFromDB(parsedId);
     res.status(200).json({
       success: true,
       message: 'User fetched successfully!',
       data: result,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something Went Wrong',
+      error: err,
+    });
   }
 };
 
@@ -69,24 +77,29 @@ const getSingleUser = async (req: Request, res: Response) => {
 //   }
 // };
 
-// const deleteUser = async (req: Request, res: Response) => {
-//   try {
-//     const { userId } = req.body;
-//     await UserServices.deleteUser(userId);
-//     res.status(200).json({
-//       success: true,
-//       message: 'User Deleted successfully!',
-//       data: null,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const parsedId = parseInt(userId)
+    const result = await UserServices.deleteUser(parsedId);
+    res.status(200).json({
+      success: true,
+      message: 'User Deleted successfully!',
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something Went Wrong',
+      error: err,
+    });
+  }
+};
 
 export const UserControllers = {
   createUser,
   getAllUsers,
   getSingleUser,
   // updateSingleUser,
-  // deleteUser,
+  deleteUser,
 };

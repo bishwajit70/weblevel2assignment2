@@ -26,6 +26,7 @@ export type TIUser = {
   hobbies: string;
   address: TAddress;
   orders: TOrder[];
+  isDeleted: boolean;
 };
 
 // for creating static method
