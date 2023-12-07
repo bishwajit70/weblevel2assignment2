@@ -9,6 +9,8 @@ import {
   TUserModel,
 } from './user/user.interface';
 import validator from 'validator';
+import bcrypt from 'bcrypt';
+import config from '../config';
 
 const FullName = new Schema<TFullName>({
   firstName: {
@@ -73,10 +75,28 @@ const userSchema = new Schema<TIUser, UserModel>({
   orders: [OrderSchema],
 });
 
+// pre save middleware / hook
+userSchema.pre('save', async function (next) {
+  // console.log(this, 'pre hook: we will save the data');
+  // hashing password and save into DB
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  next();
+});
+
+// post save middleware / hook
+userSchema.post('save', function () {
+  console.log(this, 'post hook: we saved our data');
+});
+
 // creating a custom static method
 
 userSchema.statics.isUserExists = async function (userId: number) {
-  const existingUser = await User.findOne({userId});
+  const existingUser = await User.findOne({ userId });
   return existingUser;
 };
 
